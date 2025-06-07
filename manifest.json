@@ -1,7 +1,7 @@
 {
 	"id": "simple-columns",
 	"name": "Simple Columns",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Creating columns in Obsidian is now easier than ever! This plugin allows you to create and manage columns in your notes effortlessly.",
 	"author": "Josie",
