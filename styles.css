@@ -1,0 +1,83 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+
+/* === Columns Plugin Styles === */
+.markdown-columns-resizable {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  overflow: hidden;
+  margin: 1em 0;
+}
+
+.markdown-columns-resizable .column {
+  flex: 1;
+  padding: 1em;
+  overflow-wrap: break-word;
+  overflow: auto;
+  min-width: 5px;
+}
+
+/* now set via TS */
+/* .column-resizer {
+} */
+
+
+/* === Customise Button on Markdown Code block === */
+.markdown-source-view.mod-cm6 .customise-columns-button {
+    padding: var(--size-2-2) var(--size-2-3);
+    position: absolute;
+    top: var(--size-2-2);
+    inset-inline-end: calc(var(--size-2-2) + 35px); 
+    display: flex;
+    opacity: 0;
+    color: var(--text-muted);
+    border-radius: var(--radius-s);
+    cursor: var(--cursor);
+	  background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.markdown-source-view.mod-cm6 .cm-preview-code-block:hover .customise-columns-button {
+    opacity: 1;
+}
+
+.markdown-source-view.mod-cm6 .customise-columns-button:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+/* === Custom Column Modal Styling === */
+.alignment-button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.alignment-button-group .button {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--text-muted);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.alignment-button-group .button:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.alignment-button-group .active {
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+  color: var(--background-primary);
+}
