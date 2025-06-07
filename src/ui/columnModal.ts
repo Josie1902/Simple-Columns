@@ -9,16 +9,16 @@ function clearBlockStyles(blockId: string, parts: number) {
 	for (let index = 1; index <= parts; index++) {
 		const col = container.querySelector(`.column[data-index="${index}"]`) as HTMLElement;
 		if (col) {
-			col.style = "";
+			col.removeAttribute("style");
 		}
 	}
 
-	(container as HTMLElement).style = "";
+	(container as HTMLElement).removeAttribute("style");
 	if (container instanceof HTMLElement) {
         const dividers = container.querySelectorAll(".column-resizer");
         dividers.forEach(divider => {
             if (divider instanceof HTMLElement) {
-				divider.style = "";
+				divider.removeAttribute("style");
             }
         });
     }
