@@ -115,8 +115,8 @@ export default class ColumnsPlugin extends Plugin {
 			const showBorder = borderData.show;
 			if (savedBorderColor) {
 				// prevents clashing with global border style
-				container.style.borderColor = showBorder ? savedBorderColor : "transparent";
-				container.style.borderStyle = "solid";
+				container.style.setProperty("--border-shown", showBorder ? "solid" : "none");
+				container.style.setProperty("--saved-border-color", savedBorderColor);
 			}
 
 			const resizerData = JSON.parse(localStorage.getItem(`resizerColor-${blockId}`) || '{}');
@@ -130,16 +130,16 @@ export default class ColumnsPlugin extends Plugin {
 				col.dataset.index = (i).toString();
 
 				const align = columnAlignments[i] ?? "left";
-				col.style.textAlign = align;
-
 				const bg = columnBackgrounds[i] || "var(--background-primary)";
-				col.style.backgroundColor = bg;
-
 				const textColor = columnTextColors[i] || "var(--text-normal)";
-				col.style.color = textColor;
-			
-				const width = columnWidths[i-1] || "auto";
-				col.style.flexBasis = width;
+				const width = columnWidths[i - 1] || "auto";
+
+				col.style.setProperty('--column-bg', bg);
+				col.style.setProperty('--column-text-color', textColor);
+				col.style.setProperty('--column-width', width);
+
+				col.classList.add(`text-${align}`);
+				col.classList.add('column-style');
 			
 				await MarkdownRenderer.render(
 					this.app,
@@ -162,8 +162,8 @@ export default class ColumnsPlugin extends Plugin {
 					resizer.className = "column-resizer";
 
 					if (savedResizerColor) {
-						resizer.style.backgroundColor = showResizer ? savedResizerColor : "transparent";
-						resizer.style.display = "block";
+						resizer.classList.toggle("resizer-visible", showResizer);
+						resizer.style.setProperty("--saved-resizer-bg", showResizer ? savedResizerColor : "transparent");
 					}
 
 					container.appendChild(resizer);
@@ -177,7 +177,7 @@ export default class ColumnsPlugin extends Plugin {
 					// Get columns and their widths
 					resizer.addEventListener("mousedown", (e) => {
 						isDragging = true;
-						document.body.style.cursor = "col-resize";
+						document.body.classList.add("cursor-col-resize");
 						startX = e.clientX;
 					
 						const prevCol = resizer.previousElementSibling as HTMLElement;
@@ -210,8 +210,8 @@ export default class ColumnsPlugin extends Plugin {
 						const percentPrev = (newPrev / containerWidth) * 100;
 						const percentNext = (newNext / containerWidth) * 100;
 					
-						prevCol.style.flexBasis = `${percentPrev}%`;
-						nextCol.style.flexBasis = `${percentNext}%`;
+						prevCol.style.setProperty('--column-width', `${percentPrev}%`);
+						nextCol.style.setProperty('--column-width', `${percentNext}%`);
 					});
 
 					
@@ -220,10 +220,10 @@ export default class ColumnsPlugin extends Plugin {
 					document.addEventListener("mouseup", () => {
 						if (isDragging) {
 							isDragging = false;
-							document.body.style.cursor = "";
+							document.body.classList.remove("cursor-col-resize");
 						
 							const widths = Array.from(container.querySelectorAll(".column")).map(
-								(col: any) => col.style.flexBasis || "auto"
+								(col: any) => getComputedStyle(col).getPropertyValue('--column-width')?.trim() || 'auto'
 							);
 							localStorage.setItem(storageKey, JSON.stringify(widths));
 						}

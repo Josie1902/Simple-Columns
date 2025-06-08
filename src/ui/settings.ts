@@ -44,31 +44,17 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 		  resizerWidth,
 		} = this.plugin.settings;
 		
-		const styleId = 'column-style-settings';
-		let styleEl = document.getElementById(styleId) as HTMLStyleElement;
-	
-		if (!styleEl) {
-		  styleEl = document.createElement('style');
-		  styleEl.id = styleId;
-		  document.head.appendChild(styleEl);
-		}
-	
 		const finalBorderColor = convertToRGBA(borderColor, borderTransparency ?? 100);
 		const finalResizerColor = convertToRGBA(resizerColor, resizerTransparency ?? 100);
-		
-		styleEl.textContent = `
-			.markdown-columns-resizable {
-			border: ${showBorders ? `${borderWidth}px solid ${finalBorderColor}` : 'transparent'};
-			}
-		
-			.column-resizer {
-			background-color: ${showResizer ? `${finalResizerColor}` : 'transparent'};
-			width: ${resizerWidth}px;
-			cursor: col-resize;
-			}	
-			.column-resizer:hover {
-			background-color: ${finalResizerColor};
-			}`;
+		console.log(`SHow borders: ${showBorders}`)
+		console.log(`Show resizer: ${showResizer} for ${finalResizerColor}`)
+		document.documentElement.style.setProperty('--column-border-width', `${borderWidth}px`);
+  		document.documentElement.style.setProperty('--border-shown', showBorders ? 'solid' : 'none'); 
+  		document.documentElement.style.setProperty('--saved-border-color', showBorders ? finalBorderColor : 'transparent');
+
+		document.documentElement.style.setProperty('--saved-resizer-bg', showResizer ? finalResizerColor : 'transparent');
+		document.documentElement.style.setProperty('--resizer-hover-bg', finalResizerColor);
+		document.documentElement.style.setProperty('--resizer-width', `${resizerWidth}px`);
 	}		
 
     display(): void {

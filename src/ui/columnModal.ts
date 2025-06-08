@@ -29,7 +29,8 @@ function applyColumnAlignmentStyles(blockId: string, alignments: Record<number, 
         if (!align) continue; // Skip if no alignment is set
 		const myDiv = document.querySelector(`.markdown-columns-resizable[id="${blockId}"] > .column[data-index="${index}"]`);
 		if (myDiv instanceof HTMLElement) {
-			myDiv.style.textAlign = align;
+			myDiv.classList.remove("text-left", "text-center", "text-right");
+			myDiv.classList.add(`text-${align}`);	
 		}
 	}
 }
@@ -39,7 +40,7 @@ function applyColumnBackgroundStyles(blockId: string, backgrounds: Record<number
         if (!bgColor) continue; // Skip if no background color is set   
         const myDiv = document.querySelector(`.markdown-columns-resizable[id="${blockId}"] > .column[data-index="${index}"]`);
 	    if (myDiv instanceof HTMLElement) {
-	    	myDiv.style.backgroundColor = bgColor;
+	    	myDiv.style.setProperty('--column-bg', bgColor);
 	    }
     }   
 }
@@ -49,7 +50,7 @@ function applyColumnTextColorStyles(blockId: string, textColors: Record<number, 
         if (!color) continue; // Skip if no text color is set
 		const myDiv = document.querySelector(`.markdown-columns-resizable[id="${blockId}"] > .column[data-index="${index}"]`);
 		if (myDiv instanceof HTMLElement) {
-			myDiv.style.color = color;
+			myDiv.style.setProperty('--column-text-color', color);
 		}
 	}
 }
@@ -57,19 +58,19 @@ function applyColumnTextColorStyles(blockId: string, textColors: Record<number, 
 function applyBorderStyles(blockId: string, borderColorRGB: string, showBorder: boolean) {
     const block = document.querySelector(`.markdown-columns-resizable[id="${blockId}"]`);
     if (block instanceof HTMLElement) {
-		block.style.borderColor = showBorder ? borderColorRGB : "transparent";
-		block.style.borderStyle = "solid";
+		block.style.setProperty("--border-shown", showBorder ? "solid" : "none");
+		block.style.setProperty("--saved-border-color", borderColorRGB);
     }
 }
 
 function applyResizerStyles(blockId: string, resizerColorRGB: string, showResizer: boolean) {
     const block = document.querySelector(`.markdown-columns-resizable[id="${blockId}"]`);
     if (block instanceof HTMLElement) {
-        const dividers = block.querySelectorAll(".column-resizer");
-        dividers.forEach(divider => {
-            if (divider instanceof HTMLElement) {
-				divider.style.backgroundColor = showResizer ? resizerColorRGB : "transparent";
-				divider.style.display = "block";
+        const resizers = block.querySelectorAll(".column-resizer");
+        resizers.forEach(resizer => {
+            if (resizer instanceof HTMLElement) {
+				resizer.classList.toggle("resizer-visible", showResizer);
+				resizer.style.setProperty("--saved-resizer-bg", showResizer ? resizerColorRGB : "transparent");
 			}
         });
 		let css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${resizerColorRGB} !important; }`;
