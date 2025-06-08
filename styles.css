@@ -7,7 +7,9 @@ If your plugin does not need CSS, delete this file.
 
 */
 
-/* === Columns Plugin Styles === */
+/* === Local Columns - Loads from Local Storage === */
+
+/* Unchecked */
 .markdown-columns-resizable {
   display: flex;
   gap: 0;
@@ -15,21 +17,56 @@ If your plugin does not need CSS, delete this file.
   overflow: hidden;
   margin: 1em 0;
 }
-
 .markdown-columns-resizable .column {
-  flex: 1;
   padding: 1em;
   overflow-wrap: break-word;
   overflow: auto;
   min-width: 5px;
 }
 
-/* now set via TS */
-/* .column-resizer {
-} */
+/* Borders */
+.markdown-columns-resizable {
+  border-style: var(--border-shown);
+  border-width: var(--column-border-width, 0);
+  border-color: var(--saved-border-color, transparent);
+}
 
+/* Text alignment utility classes */
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
 
-/* === Customise Button on Markdown Code block === */
+/* Shared column style that applies dynamic values */
+.column-style {
+  background-color: var(--column-bg, var(--background-primary));
+  color: var(--column-text-color, var(--text-normal));
+  flex: 1 0 var(--column-width, auto);
+}
+
+/* Resizer */
+ .column-resizer {
+  background-color: var(--saved-resizer-bg, transparent);
+  width: var(--resizer-width, 4px);
+  cursor: col-resize;
+}
+
+.column-resizer:hover {
+  background-color: var(--resizer-hover-bg, var(--saved-resizer-bg, transparent));
+}
+.resizer-visible {
+  display: block;
+}
+.cursor-col-resize {
+  cursor: col-resize;
+}
+
+/* === Customise Button in Code block === */
 .markdown-source-view.mod-cm6 .customise-columns-button {
     padding: var(--size-2-2) var(--size-2-3);
     position: absolute;
