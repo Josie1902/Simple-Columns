@@ -151,8 +151,8 @@ export default class ColumnsPlugin extends Plugin {
 				container.appendChild(col);
 
 				if (savedResizerColor) {
-					var css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${savedResizerColor} !important; }`;
-					var hoverStyle = document.createElement('style');
+					let css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${savedResizerColor} !important; }`;
+					let hoverStyle = document.createElement('style');
 					document.head.appendChild(hoverStyle);
 					hoverStyle.textContent = css;	
 				}

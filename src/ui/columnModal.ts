@@ -72,8 +72,8 @@ function applyResizerStyles(blockId: string, resizerColorRGB: string, showResize
 				divider.style.display = "block";
 			}
         });
-		var css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${resizerColorRGB} !important; }`;
-		var hoverStyle = document.createElement('style');
+		let css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${resizerColorRGB} !important; }`;
+		let hoverStyle = document.createElement('style');
 		document.head.appendChild(hoverStyle);
 		hoverStyle.textContent = css;	
     }
