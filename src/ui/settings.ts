@@ -46,8 +46,6 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 		
 		const finalBorderColor = convertToRGBA(borderColor, borderTransparency ?? 100);
 		const finalResizerColor = convertToRGBA(resizerColor, resizerTransparency ?? 100);
-		console.log(`SHow borders: ${showBorders}`)
-		console.log(`Show resizer: ${showResizer} for ${finalResizerColor}`)
 		document.documentElement.style.setProperty('--column-border-width', `${borderWidth}px`);
   		document.documentElement.style.setProperty('--border-shown', showBorders ? 'solid' : 'none'); 
   		document.documentElement.style.setProperty('--saved-border-color', showBorders ? finalBorderColor : 'transparent');
