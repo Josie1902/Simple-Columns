@@ -46,13 +46,13 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 		
 		const finalBorderColor = convertToRGBA(borderColor, borderTransparency ?? 100);
 		const finalResizerColor = convertToRGBA(resizerColor, resizerTransparency ?? 100);
-		document.documentElement.style.setProperty('--column-border-width', `${borderWidth}px`);
-  		document.documentElement.style.setProperty('--border-shown', showBorders ? 'solid' : 'none'); 
-  		document.documentElement.style.setProperty('--saved-border-color', showBorders ? finalBorderColor : 'transparent');
+		document.documentElement.style.setProperty('--sc-border-width', `${borderWidth}px`);
+  		document.documentElement.style.setProperty('--sc-border-shown', showBorders ? 'solid' : 'none'); 
+  		document.documentElement.style.setProperty('--sc-border-color', showBorders ? finalBorderColor : 'transparent');
 
-		document.documentElement.style.setProperty('--saved-resizer-bg', showResizer ? finalResizerColor : 'transparent');
-		document.documentElement.style.setProperty('--resizer-hover-bg', finalResizerColor);
-		document.documentElement.style.setProperty('--resizer-width', `${resizerWidth}px`);
+		document.documentElement.style.setProperty('--sc-resizer-bg', showResizer ? finalResizerColor : 'transparent');
+		document.documentElement.style.setProperty('--sc-resizer-hover-bg', finalResizerColor);
+		document.documentElement.style.setProperty('--sc-resizer-width', `${resizerWidth}px`);
 	}		
 
     display(): void {

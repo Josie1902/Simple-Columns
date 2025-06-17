@@ -115,8 +115,8 @@ export default class ColumnsPlugin extends Plugin {
 			const showBorder = borderData.show;
 			if (savedBorderColor) {
 				// prevents clashing with global border style
-				container.style.setProperty("--border-shown", showBorder ? "solid" : "none");
-				container.style.setProperty("--saved-border-color", savedBorderColor);
+				container.style.setProperty("--sc-border-shown", showBorder ? "solid" : "none");
+				container.style.setProperty("--sc-border-color", savedBorderColor);
 			}
 
 			const resizerData = JSON.parse(localStorage.getItem(`resizerColor-${blockId}`) || '{}');
@@ -134,9 +134,9 @@ export default class ColumnsPlugin extends Plugin {
 				const textColor = columnTextColors[i] || "var(--text-normal)";
 				const width = columnWidths[i - 1] || "auto";
 
-				col.style.setProperty('--column-bg', bg);
-				col.style.setProperty('--column-text-color', textColor);
-				col.style.setProperty('--column-width', width);
+				col.style.setProperty('--sc-column-bg', bg);
+				col.style.setProperty('--sc-column-text-color', textColor);
+				col.style.setProperty('--sc-column-width', width);
 
 				col.classList.add(`text-${align}`);
 				col.classList.add('column-style');
@@ -163,7 +163,7 @@ export default class ColumnsPlugin extends Plugin {
 
 					if (savedResizerColor) {
 						resizer.classList.toggle("resizer-visible", showResizer);
-						resizer.style.setProperty("--saved-resizer-bg", showResizer ? savedResizerColor : "transparent");
+						resizer.style.setProperty("--sc-resizer-bg", showResizer ? savedResizerColor : "transparent");
 					}
 
 					container.appendChild(resizer);
@@ -210,8 +210,8 @@ export default class ColumnsPlugin extends Plugin {
 						const percentPrev = (newPrev / containerWidth) * 100;
 						const percentNext = (newNext / containerWidth) * 100;
 					
-						prevCol.style.setProperty('--column-width', `${percentPrev}%`);
-						nextCol.style.setProperty('--column-width', `${percentNext}%`);
+						prevCol.style.setProperty('--sc-column-width', `${percentPrev}%`);
+						nextCol.style.setProperty('--sc-column-width', `${percentNext}%`);
 					});
 
 					

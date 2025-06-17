@@ -40,7 +40,7 @@ function applyColumnBackgroundStyles(blockId: string, backgrounds: Record<number
         if (!bgColor) continue; // Skip if no background color is set   
         const myDiv = document.querySelector(`.markdown-columns-resizable[id="${blockId}"] > .column[data-index="${index}"]`);
 	    if (myDiv instanceof HTMLElement) {
-	    	myDiv.style.setProperty('--column-bg', bgColor);
+	    	myDiv.style.setProperty('--sc-column-bg', bgColor);
 	    }
     }   
 }
@@ -50,7 +50,7 @@ function applyColumnTextColorStyles(blockId: string, textColors: Record<number, 
         if (!color) continue; // Skip if no text color is set
 		const myDiv = document.querySelector(`.markdown-columns-resizable[id="${blockId}"] > .column[data-index="${index}"]`);
 		if (myDiv instanceof HTMLElement) {
-			myDiv.style.setProperty('--column-text-color', color);
+			myDiv.style.setProperty('--sc-column-text-color', color);
 		}
 	}
 }
@@ -58,8 +58,8 @@ function applyColumnTextColorStyles(blockId: string, textColors: Record<number, 
 function applyBorderStyles(blockId: string, borderColorRGB: string, showBorder: boolean) {
     const block = document.querySelector(`.markdown-columns-resizable[id="${blockId}"]`);
     if (block instanceof HTMLElement) {
-		block.style.setProperty("--border-shown", showBorder ? "solid" : "none");
-		block.style.setProperty("--saved-border-color", borderColorRGB);
+		block.style.setProperty("--sc-border-shown", showBorder ? "solid" : "none");
+		block.style.setProperty("--sc-border-color", borderColorRGB);
     }
 }
 
@@ -70,7 +70,7 @@ function applyResizerStyles(blockId: string, resizerColorRGB: string, showResize
         resizers.forEach(resizer => {
             if (resizer instanceof HTMLElement) {
 				resizer.classList.toggle("resizer-visible", showResizer);
-				resizer.style.setProperty("--saved-resizer-bg", showResizer ? resizerColorRGB : "transparent");
+				resizer.style.setProperty("--sc-resizer-bg", showResizer ? resizerColorRGB : "transparent");
 			}
         });
 		let css = `.markdown-columns-resizable[id="${blockId}"] > .column-resizer:hover{ background-color: ${resizerColorRGB} !important; }`;
