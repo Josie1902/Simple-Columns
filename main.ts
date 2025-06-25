@@ -132,7 +132,7 @@ export default class ColumnsPlugin extends Plugin {
 				const align = columnAlignments[i] ?? "left";
 				const bg = columnBackgrounds[i] || "var(--background-primary)";
 				const textColor = columnTextColors[i] || "var(--text-normal)";
-				const width = columnWidths[i - 1] || "auto";
+				const width = columnWidths[i - 1] || `${100 / parts.length-1}%`;
 
 				col.style.setProperty('--sc-column-bg', bg);
 				col.style.setProperty('--sc-column-text-color', textColor);
@@ -223,7 +223,7 @@ export default class ColumnsPlugin extends Plugin {
 							document.body.classList.remove("cursor-col-resize");
 						
 							const widths = Array.from(container.querySelectorAll(".column")).map(
-								(col: any) => getComputedStyle(col).getPropertyValue('--column-width')?.trim() || 'auto'
+								(col: any) => getComputedStyle(col).getPropertyValue('--sc-column-width')?.trim()
 							);
 							localStorage.setItem(storageKey, JSON.stringify(widths));
 						}

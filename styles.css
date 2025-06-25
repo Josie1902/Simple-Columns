@@ -46,7 +46,7 @@ If your plugin does not need CSS, delete this file.
 .column-style {
   background-color: var(--sc-column-bg, var(--background-primary));
   color: var(--sc-column-text-color, var(--text-normal));
-  flex: 1 0 var(--sc-column-width, auto);
+  flex: 1 0 var(--sc-column-width);
 }
 
 /* Resizer */
