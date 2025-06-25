@@ -1,11 +1,11 @@
 import { App, MarkdownView } from 'obsidian';
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from 'nanoid'
 
 export function createMarkdownColumns(app: App, columnCount: number) {
 	const view = app.workspace.getActiveViewOfType(MarkdownView);
 	if (!view) return;
 
-	const blockId = uuidv4();
+	const blockId = nanoid();
 
 	let content = "```columns\n";
 	content += `id: ${blockId}\n`;
