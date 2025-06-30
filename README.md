@@ -99,6 +99,15 @@ The **Local Settings** allow you to apply more **granular customizations** to in
 - **Set Background Color and Transparency**
 - **Set Text Alignment**: Align the text within the column (e.g., `left`, `center`, `right`).
 
+## 📦 Installation
+This plugin is currently in beta and can be installed via the BRAT plugin:
+
+1. Make sure you have the BRAT plugin installed in Obsidian.
+2. In BRAT settings, click "Add Beta Plugin".
+3. Paste the GitHub repository URL for this plugin: [https://github.com/Josie1902/Simple-Columns](https://github.com/Josie1902/Simple-Columns.git)
+4. BRAT will install and track updates automatically.
+5. Enable Simple Image Plugin from the Community Plugins tab in Obsidian.
+
 ## 🚀 Future Works
 1. Add background image to individual columns
 2. Enable nested columns
