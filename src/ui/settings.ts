@@ -197,7 +197,12 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
                 .setButtonText('Clear')
                 .setWarning()
                 .onClick(async () => {
-                    localStorage.clear();
+					// Clear all local storage keys that contains 'sc-' --> custom simple columns styles
+                    for (let key in localStorage) {
+					  if (key.startsWith('sc-')) {
+					    localStorage.removeItem(key);
+					  }
+					}
                     new Notice('Local storage cleared for columns plugin.');
                 }));    
     }

@@ -97,20 +97,20 @@ export default class ColumnsPlugin extends Plugin {
 			container.id = blockId
 			
 			// Load custom styles from localStorage - set via column settings modal
-			const storageKey = `column-widths-${blockId}`;
+			const storageKey = `sc-column-widths-${blockId}`;
 			const savedWidths = this.app.loadLocalStorage(storageKey);
 			const columnWidths: string[] = savedWidths ? JSON.parse(savedWidths) : [];	
 
-			const savedAlignments = this.app.loadLocalStorage(`columnAlignments-${blockId}`);
+			const savedAlignments = this.app.loadLocalStorage(`sc-columnAlignments-${blockId}`);
 			const columnAlignments: Record<number, "left" | "center" | "right"> = savedAlignments ? JSON.parse(savedAlignments) : {};
 
-			const savedBackgrounds = this.app.loadLocalStorage(`columnBackgrounds-${blockId}`);	
+			const savedBackgrounds = this.app.loadLocalStorage(`sc-columnBackgrounds-${blockId}`);	
 			const columnBackgrounds: Record<number, string> = savedBackgrounds ? JSON.parse(savedBackgrounds) : {};
 			
-			const savedTextColors = this.app.loadLocalStorage(`columnTextColors-${blockId}`);	
+			const savedTextColors = this.app.loadLocalStorage(`sc-columnTextColors-${blockId}`);	
 			const columnTextColors: Record<number, string> = savedTextColors ? JSON.parse(savedTextColors) : {};
 
-			const borderData = JSON.parse(this.app.loadLocalStorage(`borderColor-${blockId}`) || '{}');
+			const borderData = JSON.parse(this.app.loadLocalStorage(`sc-borderColor-${blockId}`) || '{}');
 			const savedBorderColor = borderData.color;
 			const showBorder = borderData.show;
 			if (savedBorderColor) {
@@ -119,7 +119,7 @@ export default class ColumnsPlugin extends Plugin {
 				container.style.setProperty("--sc-border-color", savedBorderColor);
 			}
 
-			const resizerData = JSON.parse(this.app.loadLocalStorage(`resizerColor-${blockId}`) || '{}');
+			const resizerData = JSON.parse(this.app.loadLocalStorage(`sc-resizerColor-${blockId}`) || '{}');
 			const savedResizerColor = resizerData.color;
 			const showResizer = resizerData.show;	
 
