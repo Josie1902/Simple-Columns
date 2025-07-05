@@ -199,7 +199,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
                 .onClick(async () => {
 					// Clear all local storage keys that contains 'sc-' --> custom simple columns styles
                     for (let key in localStorage) {
-					  if (key.startsWith('sc-')) {
+					  if (key.contains('sc-')) {
 					    localStorage.removeItem(key);
 					  }
 					}
