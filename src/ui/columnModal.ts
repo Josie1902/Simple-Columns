@@ -154,7 +154,7 @@ export class CustomiseColumnsModal extends Modal {
 		
 		// Toggle show/hide border
     	new Setting(contentEl)
-    	  .setName('Show Border')
+    	  .setName('Show border')
     	  .setDesc('Toggle to show or hide border.')
     	  .addToggle(toggle => toggle
     	    .setValue(this.showBorder)	
@@ -164,7 +164,7 @@ export class CustomiseColumnsModal extends Modal {
 
 		// Setting for Border Color
 		new Setting(contentEl)
-			.setName(`Border Color`)
+			.setName(`Border color`)
 			.setDesc("Pick a border color and set its transparency.")
 		  	.addColorPicker((picker) => {
 		    	picker.setValue(rgbToHex(this.borderColorRGB));	
@@ -204,7 +204,7 @@ export class CustomiseColumnsModal extends Modal {
 		
 		// Setting for Resizer Color	
 		new Setting(contentEl)
-			.setName(`Resizer Color`)
+			.setName(`Resizer color`)
 			.setDesc("Pick a resizer color and set its transparency.")	
 			.addColorPicker((picker) => {
 			    picker.setValue(rgbToHex(this.resizerColorRGB));
@@ -244,7 +244,7 @@ export class CustomiseColumnsModal extends Modal {
 
             // Text Color Picker Setting
 	        new Setting(columnGroup)
-	        	.setName(`Text Color`)
+	        	.setName(`Text color`)
 	        	.setDesc("Choose a text color for this column.")
 	        	.addColorPicker((picker) => {
                     // Set initial value if present
@@ -262,7 +262,7 @@ export class CustomiseColumnsModal extends Modal {
         
 	        // Background Color Picker Setting
             new Setting(columnGroup)
-  				.setName("Background Color")
+  				.setName("Background color")
   				.setDesc("Choose a background color and transparency for this column.")
 
 				// Color picker:
