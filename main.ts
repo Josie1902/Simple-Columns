@@ -1,5 +1,5 @@
 import { createMarkdownColumns } from 'src/ui/createColumns';
-import { MarkdownRenderer, Plugin } from 'obsidian';
+import { Component, MarkdownRenderer, Plugin } from 'obsidian';
 import { CustomiseColumnsModal } from 'src/ui/columnModal';	
 import { DEFAULT_SETTINGS, ColumnsPluginSettings, ColumnWidthsSettingTab } from 'src/ui/settings';
 import { createCustomiseButton } from 'src/ui/button';
@@ -8,6 +8,7 @@ import { createCustomiseButton } from 'src/ui/button';
 export default class ColumnsPlugin extends Plugin {
 	markdownRenderer: any;
 	settings: ColumnsPluginSettings
+	tempComponent = new Component();
 
 	async onload() {
 
@@ -146,7 +147,7 @@ export default class ColumnsPlugin extends Plugin {
 					parts[i].trim(),
 					col,
 					ctx.sourcePath,
-					this
+					this.tempComponent
 				);
 				container.appendChild(col);
 
@@ -245,6 +246,10 @@ export default class ColumnsPlugin extends Plugin {
 			// Add the columns container to the rendered element
 			el.appendChild(container);
 		});
+	}
+
+	onunload() {
+		this.tempComponent.unload()
 	}
 
 	async loadSettings() {
