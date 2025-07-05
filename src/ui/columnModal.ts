@@ -129,13 +129,21 @@ export class CustomiseColumnsModal extends Modal {
 		        // Reset border and divider colors to defaults
 		        this.borderColorRGB = convertToRGBA(this.plugin.settings.borderColor, this.plugin.settings.borderTransparency);
 		        this.resizerColorRGB = convertToRGBA(this.plugin.settings.resizerColor, this.plugin.settings.resizerTransparency);
-			
+				
 		        // Clear style-specific localStorage values
-		        localStorage.removeItem(`sc-borderColor-${this.blockId}`);
-		        localStorage.removeItem(`sc-resizerColor-${this.blockId}`);
-		        localStorage.removeItem(`sc-columnAlignments-${this.blockId}`);
-		        localStorage.removeItem(`sc-columnBackgrounds-${this.blockId}`);
-		        localStorage.removeItem(`sc-columnTextColors-${this.blockId}`);
+		        const prefixes = [
+				  'sc-borderColor',
+				  'sc-resizerColor',
+				  'sc-columnAlignments',
+				  'sc-columnBackgrounds',
+				  'sc-columnTextColors'
+				];
+
+				Object.keys(localStorage).forEach((key) => {
+				  if (prefixes.some(prefix => key.includes(`-${prefix}-`)) && key.endsWith(`-${this.blockId}`)) {
+				    localStorage.removeItem(key);
+				  }
+				});
 			
 		        // Reset in-memory state
 		        this.columnAlignments = {};
@@ -352,9 +360,12 @@ export class CustomiseColumnsModal extends Modal {
         applyColumnAlignmentStyles(this.blockId, this.columnAlignments);    
         const alignmentKey = `sc-columnAlignments-${this.blockId}`;
         const allLeft = Object.values(this.columnAlignments).every(value => value === "left");
+		const keyToRemove = Object.keys(localStorage).find(key => 
+		  key.endsWith(`-${alignmentKey}`)
+		);
 
-        if (allLeft) {
-          localStorage.removeItem(alignmentKey);
+        if (allLeft && keyToRemove) {
+          localStorage.removeItem(keyToRemove);
         } else {
             this.app.saveLocalStorage(alignmentKey, JSON.stringify(this.columnAlignments));
         }
