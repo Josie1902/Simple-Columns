@@ -164,6 +164,8 @@ export default class ColumnsPlugin extends Plugin {
 				  hoverStyle.id = styleId; // Tag it for future cleanup
 				  hoverStyle.textContent = css;
 				  document.head.appendChild(hoverStyle);
+				} else{
+					document.getElementById(`sc-resizer-hover-style-${blockId}`)?.remove();
 				}
 
 				if (i < parts.length - 1) {
