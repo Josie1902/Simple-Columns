@@ -102,11 +102,11 @@ export class CustomiseColumnsModal extends Modal {
         this.columnBackgrounds = columnBackgrounds;
         this.columnTextColors = columnTextColors;
 
-		const borderData = JSON.parse(localStorage.getItem(`borderColor-${this.blockId}`) || '{}');
+		const borderData = JSON.parse(this.app.loadLocalStorage(`borderColor-${this.blockId}`) || '{}');
 		this.showBorder = borderData.show ?? this.plugin.settings.showBorders;
 		this.borderColorRGB = borderData.color ?? convertToRGBA(this.plugin.settings.borderColor, this.plugin.settings.borderTransparency); 
 
-		const resizerData = JSON.parse(localStorage.getItem(`resizerColor-${this.blockId}`) || '{}');
+		const resizerData = JSON.parse(this.app.loadLocalStorage(`resizerColor-${this.blockId}`) || '{}');
 		this.showResizer = resizerData.show ?? this.plugin.settings.showResizer;	
 		this.resizerColorRGB = resizerData.color ?? convertToRGBA(this.plugin.settings.resizerColor, this.plugin.settings.resizerTransparency);
 	}
@@ -114,12 +114,12 @@ export class CustomiseColumnsModal extends Modal {
 
 	onOpen() {
   		const { contentEl } = this;
-  		contentEl.createEl("h2", { text: "Customise Columns" });
+  		contentEl.createEl("h2", { text: "Customise columns" });
   		contentEl.createEl("p", { text: `Adjusting blockId: ${this.blockId}` });
 
 		// Reset Button
 		new Setting(contentEl)
-		  .setName("Reset All Styles")	
+		  .setName("Reset all styles")	
 		  .addButton((button) =>
 		    button
 		      .setIcon("rotate-ccw")
@@ -337,14 +337,14 @@ export class CustomiseColumnsModal extends Modal {
 
 		applyBorderStyles(this.blockId, this.borderColorRGB, this.showBorder);
 		const outlineKey = `borderColor-${this.blockId}`;
-		localStorage.setItem(outlineKey, JSON.stringify({
+		this.app.saveLocalStorage(outlineKey, JSON.stringify({
 			color: this.borderColorRGB,
 			show: this.showBorder
 		}));
 		
 		applyResizerStyles(this.blockId, this.resizerColorRGB, this.showResizer);
 		const dividerKey = `resizerColor-${this.blockId}`;
-		localStorage.setItem(dividerKey, JSON.stringify({
+		this.app.saveLocalStorage(dividerKey, JSON.stringify({
 			color: this.resizerColorRGB,
 			show: this.showResizer
 		}));
@@ -356,19 +356,19 @@ export class CustomiseColumnsModal extends Modal {
         if (allLeft) {
           localStorage.removeItem(alignmentKey);
         } else {
-            localStorage.setItem(alignmentKey, JSON.stringify(this.columnAlignments));
+            this.app.saveLocalStorage(alignmentKey, JSON.stringify(this.columnAlignments));
         }
 
         if (Object.keys(this.columnTextColors).length != 0) {
             applyColumnTextColorStyles(this.blockId, this.columnTextColors);
             const textColorKey = `columnTextColors-${this.blockId}`;
-            localStorage.setItem(textColorKey, JSON.stringify(this.columnTextColors));
+            this.app.saveLocalStorage(textColorKey, JSON.stringify(this.columnTextColors));
         }
         
         if (Object.keys(this.columnBackgrounds).length != 0) {
             applyColumnBackgroundStyles(this.blockId, this.columnBackgrounds);
             const backgroundKey = `columnBackgrounds-${this.blockId}`;
-            localStorage.setItem(backgroundKey, JSON.stringify(this.columnBackgrounds));
+            this.app.saveLocalStorage(backgroundKey, JSON.stringify(this.columnBackgrounds));
         }
 	}
 }

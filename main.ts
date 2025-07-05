@@ -14,7 +14,7 @@ export default class ColumnsPlugin extends Plugin {
 		// Load columns from command palette
 		this.addCommand({
     	  id: "two-columns",
-    	  name: "Add 2 Columns",
+    	  name: "Add 2 columns",
     	  callback: () => {
     	   createMarkdownColumns(this.app, 2);
     	  }
@@ -22,7 +22,7 @@ export default class ColumnsPlugin extends Plugin {
 
     	this.addCommand({
     	  id: "three-columns",
-    	  name: "Add 3 Columns",
+    	  name: "Add 3 columns",
     	  callback: () => {
     	    createMarkdownColumns(this.app, 3);
     	  }
@@ -30,7 +30,7 @@ export default class ColumnsPlugin extends Plugin {
 
     	this.addCommand({
     	  id: "four-columns",
-    	  name: "Add 4 Columns",
+    	  name: "Add 4 columns",
     	  callback: () => {
     	    createMarkdownColumns(this.app, 4);
     	  }
@@ -40,13 +40,13 @@ export default class ColumnsPlugin extends Plugin {
 		this.registerEvent(
 			this.app.workspace.on('editor-menu', (menu, editor, view) => {
 				menu.addItem((item) => {
-					item.setTitle('Add Columns')
+					item.setTitle('Add columns')
 					item.setIcon('between-vertical-end')
 
 					const submenu = item.setSubmenu();
 
 					submenu.addItem((subItem) => {
-						subItem.setTitle('2 Columns')
+						subItem.setTitle('2 columns')
 							.setIcon('columns-2')
 							.onClick(() => {
 								createMarkdownColumns(this.app, 2)
@@ -54,7 +54,7 @@ export default class ColumnsPlugin extends Plugin {
 					});
 
 					submenu.addItem((subItem) => {
-						subItem.setTitle('3 Columns')
+						subItem.setTitle('3 columns')
 							.setIcon('columns-3')
 							.onClick(() => {
 								createMarkdownColumns(this.app, 3)
@@ -62,7 +62,7 @@ export default class ColumnsPlugin extends Plugin {
 					});
 
 					submenu.addItem((subItem) => {
-						subItem.setTitle('4 Columns')
+						subItem.setTitle('4 columns')
 							.setIcon('columns-4')
 							.onClick(() => {
 								createMarkdownColumns(this.app, 4)
