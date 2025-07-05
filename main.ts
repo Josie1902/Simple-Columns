@@ -98,19 +98,19 @@ export default class ColumnsPlugin extends Plugin {
 			
 			// Load custom styles from localStorage - set via column settings modal
 			const storageKey = `column-widths-${blockId}`;
-			const savedWidths = localStorage.getItem(storageKey);
+			const savedWidths = this.app.loadLocalStorage(storageKey);
 			const columnWidths: string[] = savedWidths ? JSON.parse(savedWidths) : [];	
 
-			const savedAlignments = localStorage.getItem(`columnAlignments-${blockId}`);
+			const savedAlignments = this.app.loadLocalStorage(`columnAlignments-${blockId}`);
 			const columnAlignments: Record<number, "left" | "center" | "right"> = savedAlignments ? JSON.parse(savedAlignments) : {};
 
-			const savedBackgrounds = localStorage.getItem(`columnBackgrounds-${blockId}`);	
+			const savedBackgrounds = this.app.loadLocalStorage(`columnBackgrounds-${blockId}`);	
 			const columnBackgrounds: Record<number, string> = savedBackgrounds ? JSON.parse(savedBackgrounds) : {};
 			
-			const savedTextColors = localStorage.getItem(`columnTextColors-${blockId}`);	
+			const savedTextColors = this.app.loadLocalStorage(`columnTextColors-${blockId}`);	
 			const columnTextColors: Record<number, string> = savedTextColors ? JSON.parse(savedTextColors) : {};
 
-			const borderData = JSON.parse(localStorage.getItem(`borderColor-${blockId}`) || '{}');
+			const borderData = JSON.parse(this.app.loadLocalStorage(`borderColor-${blockId}`) || '{}');
 			const savedBorderColor = borderData.color;
 			const showBorder = borderData.show;
 			if (savedBorderColor) {
@@ -119,7 +119,7 @@ export default class ColumnsPlugin extends Plugin {
 				container.style.setProperty("--sc-border-color", savedBorderColor);
 			}
 
-			const resizerData = JSON.parse(localStorage.getItem(`resizerColor-${blockId}`) || '{}');
+			const resizerData = JSON.parse(this.app.loadLocalStorage(`resizerColor-${blockId}`) || '{}');
 			const savedResizerColor = resizerData.color;
 			const showResizer = resizerData.show;	
 
@@ -225,7 +225,7 @@ export default class ColumnsPlugin extends Plugin {
 							const widths = Array.from(container.querySelectorAll(".column")).map(
 								(col: any) => getComputedStyle(col).getPropertyValue('--sc-column-width')?.trim()
 							);
-							localStorage.setItem(storageKey, JSON.stringify(widths));
+							this.app.saveLocalStorage(storageKey, JSON.stringify(widths));
 						}
 					});
 				}
