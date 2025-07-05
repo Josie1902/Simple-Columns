@@ -118,3 +118,11 @@ If your plugin does not need CSS, delete this file.
   border-color: var(--interactive-accent);
   color: var(--background-primary);
 }
+
+/* === Settings === */
+.column-resizer-settings {
+  margin-top: 25px;
+}
+.column-advanced-settings{
+  margin-top: 25px;
+}
