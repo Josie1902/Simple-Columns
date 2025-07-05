@@ -62,7 +62,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
         const settings = this.plugin.settings;
 
         const borderGroup = containerEl.createDiv({ cls: 'column-border-settings' });
-        borderGroup.createEl('h6', { text: 'Global border settings' });
+        borderGroup.createEl('h6', { text: 'Global border customisation' });
     
     	// Toggle border on/off
     	new Setting(borderGroup)
@@ -119,7 +119,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
     	}
 
         const resizerGroup = containerEl.createDiv({ cls: 'column-resizer-settings' });
-        resizerGroup.createEl('h6', { text: 'Global resizer settings' });  
+        resizerGroup.createEl('h6', { text: 'Global resizer customisation' });  
 
 		// Toggle show/hide resizer
     	new Setting(resizerGroup)
@@ -172,7 +172,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
     			});
         
         const advancedGroup = containerEl.createDiv({ cls: 'column-advanced-settings' });
-        advancedGroup.createEl('h6', { text: 'Advanced settings' });
+        advancedGroup.createEl('h6', { text: 'Advanced' });
 
         new Setting(advancedGroup)
             .setName('Reset to default')
