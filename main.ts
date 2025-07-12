@@ -1,5 +1,5 @@
 import { createMarkdownColumns } from 'src/ui/createColumns';
-import { Component, MarkdownRenderer, Plugin } from 'obsidian';
+import { MarkdownRenderer, Plugin } from 'obsidian';
 import { CustomiseColumnsModal } from 'src/ui/columnModal';	
 import { DEFAULT_SETTINGS, ColumnsPluginSettings, ColumnWidthsSettingTab } from 'src/ui/settings';
 import { createCustomiseButton } from 'src/ui/button';
@@ -265,6 +265,15 @@ export default class ColumnsPlugin extends Plugin {
 
 	onunload() {
 		console.log("Unloading Simple Columns plugin.");
+
+		const rootStyle = document.documentElement.style;
+
+		rootStyle.removeProperty('--sc-border-width');
+		rootStyle.removeProperty('--sc-border-shown');
+		rootStyle.removeProperty('--sc-border-color');
+		rootStyle.removeProperty('--sc-resizer-bg');
+		rootStyle.removeProperty('--sc-resizer-hover-bg');
+		rootStyle.removeProperty('--sc-resizer-width');
 	}
 
 	async loadSettings() {
