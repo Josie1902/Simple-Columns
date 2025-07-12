@@ -3,12 +3,12 @@ import { Component, MarkdownRenderer, Plugin } from 'obsidian';
 import { CustomiseColumnsModal } from 'src/ui/columnModal';	
 import { DEFAULT_SETTINGS, ColumnsPluginSettings, ColumnWidthsSettingTab } from 'src/ui/settings';
 import { createCustomiseButton } from 'src/ui/button';
+import { ColumnRenderer } from 'src/columnRenderer';
 
 
 export default class ColumnsPlugin extends Plugin {
 	markdownRenderer: any;
 	settings: ColumnsPluginSettings
-	tempComponent = new Component();
 
 	async onload() {
 
@@ -124,6 +124,10 @@ export default class ColumnsPlugin extends Plugin {
 			const savedResizerColor = resizerData.color;
 			const showResizer = resizerData.show;	
 
+			// Column Renderer to manage life cycle 
+			const child = new ColumnRenderer(container, blockId);
+			ctx.addChild(child);
+
 			// Create HTML structure for columns
 			for (let i = 1; i < parts.length; i++) {
 				const col = document.createElement("div");
@@ -141,14 +145,15 @@ export default class ColumnsPlugin extends Plugin {
 
 				col.classList.add(`text-${align}`);
 				col.classList.add('column-style');
-			
+
 				await MarkdownRenderer.render(
 					this.app,
 					parts[i].trim(),
 					col,
 					ctx.sourcePath,
-					this.tempComponent
+					child
 				);
+
 				container.appendChild(col);
 
 				if (savedResizerColor) {
@@ -259,7 +264,7 @@ export default class ColumnsPlugin extends Plugin {
 	}
 
 	onunload() {
-		this.tempComponent.unload()
+		console.log("Unloading Simple Columns plugin.");
 	}
 
 	async loadSettings() {
