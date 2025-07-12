@@ -62,7 +62,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
         const settings = this.plugin.settings;
 
         const borderGroup = containerEl.createDiv({ cls: 'column-border-settings' });
-		new Setting(borderGroup).setName('Global border customisation').setHeading();
+		new Setting(borderGroup).setName('Global border').setHeading();
     
     	// Toggle border on/off
     	new Setting(borderGroup)
@@ -119,7 +119,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
     	}
 
         const resizerGroup = containerEl.createDiv({ cls: 'column-resizer-settings' });
-		new Setting(resizerGroup).setName('Global resizer customisation').setHeading();
+		new Setting(resizerGroup).setName('Global resizer').setHeading();
 		
 		// Toggle show/hide resizer
     	new Setting(resizerGroup)
