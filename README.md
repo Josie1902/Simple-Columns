@@ -100,13 +100,11 @@ The **Local Settings** allow you to apply more **granular customizations** to in
 - **Set Text Alignment**: Align the text within the column (e.g., `left`, `center`, `right`).
 
 ## 📦 Installation
-This plugin is currently in beta and can be installed via the BRAT plugin:
+This plugin is now available in the Obsidian Community Plugins! 🎉
 
-1. Make sure you have the BRAT plugin installed in Obsidian.
-2. In BRAT settings, click "Add Beta Plugin".
-3. Paste the GitHub repository URL for this plugin: [https://github.com/Josie1902/Simple-Columns](https://github.com/Josie1902/Simple-Columns.git)
-4. BRAT will install and track updates automatically.
-5. Enable Simple Image Plugin from the Community Plugins tab in Obsidian.
+1. In Obsidian, go to Settings > Community Plugins.
+2. Click Browse and search for Simple Columns.
+3. Click Install, then Enable the plugin.
 
 ## 🚀 Future Works
 1. Add background image to individual columns
