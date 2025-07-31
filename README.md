@@ -40,6 +40,7 @@ Column 2
 ### Example: Creating Columns with Code Blocks
 To create a layout with code blocks inside columns, use the following syntax (start and end with 4 backticks: ````):
 
+`````
 ````columns
 id: b52707b0-ce15-6458-825d-32615b4b7h85
 ===
@@ -50,6 +51,7 @@ console.log("Hello world")
 ===
 Column 2
 ````
+`````
 
 ## ✨ Features
 - **Unique Column IDs**: Each column is generated with a unique ID, ensuring you can style or reference columns independently.
