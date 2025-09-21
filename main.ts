@@ -90,15 +90,71 @@ export default class ColumnsPlugin extends Plugin {
 			if (!idMatch || !idMatch[1]) {
 				throw new Error("No 'id' found in columns code block metadata.");
 			}
-			const blockId = idMatch[1].trim();
+
+			// Extract additional sytles from yaml if needed
+			const ratioRegex = /^column-(\d+)-ratio:\s*(.+)$/gm;
+			let match: RegExpExecArray | null;
+			const providedRatios: Record<number, number> = {};
+
+			while ((match = ratioRegex.exec(metadataSection)) !== null) {
+			  const colIndex = parseInt(match[1], 10); // 1-based
+			  const ratio = parseFloat(match[2].trim());
+			
+			  if (!isNaN(ratio) && colIndex >= 1 && colIndex <= 4) {
+			    providedRatios[colIndex - 1] = ratio; // store as 0-based index
+			  }
+			}
 			
 			// Render yaml as HTML container for the columns
+			const blockId = idMatch[1].trim();
 			const container = document.createElement("div");
 			container.className = `markdown-columns-resizable`;
 			container.id = blockId
 			
 			// Load custom styles from localStorage - set via column settings modal
 			const storageKey = `sc-column-widths-${blockId}`;
+
+			// Loading optional width styles from yaml
+			if (Object.keys(providedRatios).length > 0) {
+				const totalCols = parts.length - 1; // how many columns were split in the content
+
+				this.app.workspace.onLayoutReady(() => {
+				  const containerWidth = container.offsetWidth;
+				  if (containerWidth <= 0) return;
+				
+				  const resizerWidthPx = this.settings.resizerWidth || DEFAULT_SETTINGS.resizerWidth;
+				  const totalResizers = Math.max(totalCols - 1, 0);
+				  const resizerPercent = (resizerWidthPx / containerWidth) * 100;
+				  const totalResizerPercent = resizerPercent * totalResizers;
+				
+				  let remainingPercent = 100 - totalResizerPercent;
+				
+				  const templatisedWidths: (string | undefined)[] = Array(totalCols).fill(undefined);
+				
+				  // Apply provided ratios first
+				  Object.entries(providedRatios).forEach(([idxStr, ratio]) => {
+				    const idx = parseInt(idxStr, 10);
+				    if (idx < totalCols) {
+				      templatisedWidths[idx] = `${ratio}%`;
+				      remainingPercent -= ratio;
+				    }
+				  });
+			  
+				  // Count how many columns need auto distribution
+				  const autoCols = templatisedWidths.filter(w => !w).length;
+				  if (autoCols > 0) {
+				    const each = remainingPercent / autoCols;
+				    for (let i = 0; i < totalCols; i++) {
+				      if (!templatisedWidths[i]) {
+				        templatisedWidths[i] = `${each}%`;
+				      }
+				    }
+				  }
+			  
+				  this.app.saveLocalStorage(storageKey, JSON.stringify(templatisedWidths));
+				});
+			}
+			
 			const savedWidths = this.app.loadLocalStorage(storageKey);
 			const columnWidths: string[] = savedWidths ? JSON.parse(savedWidths) : [];	
 
@@ -271,6 +327,7 @@ export default class ColumnsPlugin extends Plugin {
 		rootStyle.removeProperty('--sc-border-width');
 		rootStyle.removeProperty('--sc-border-shown');
 		rootStyle.removeProperty('--sc-border-color');
+		rootStyle.removeProperty('--sc-border-radius');
 		rootStyle.removeProperty('--sc-resizer-bg');
 		rootStyle.removeProperty('--sc-resizer-hover-bg');
 		rootStyle.removeProperty('--sc-resizer-width');
