@@ -1,6 +1,6 @@
 {
 	"name": "columns-plugin",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "A plugin for Obsidian that adds a column layout to the editor.",
 	"main": "main.js",
 	"scripts": {
