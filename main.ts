@@ -91,7 +91,7 @@ export default class ColumnsPlugin extends Plugin {
 				throw new Error("No 'id' found in columns code block metadata.");
 			}
 
-			// Extract additional sytles from yaml if needed
+			// [NEW FEATURE] Extract additional sytles from yaml if needed
 			const ratioRegex = /^column-(\d+)-ratio:\s*(.+)$/gm;
 			let match: RegExpExecArray | null;
 			const providedRatios: Record<number, number> = {};
@@ -114,7 +114,7 @@ export default class ColumnsPlugin extends Plugin {
 			// Load custom styles from localStorage - set via column settings modal
 			const storageKey = `sc-column-widths-${blockId}`;
 
-			// Loading optional width styles from yaml
+			// [NEW FEATURE] Loading optional width styles from yaml
 			if (Object.keys(providedRatios).length > 0) {
 				const totalCols = parts.length - 1; // how many columns were split in the content
 
@@ -154,7 +154,7 @@ export default class ColumnsPlugin extends Plugin {
 				  this.app.saveLocalStorage(storageKey, JSON.stringify(templatisedWidths));
 				});
 			}
-			
+
 			const savedWidths = this.app.loadLocalStorage(storageKey);
 			const columnWidths: string[] = savedWidths ? JSON.parse(savedWidths) : [];	
 
