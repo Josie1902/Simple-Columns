@@ -5,6 +5,7 @@
   - [📝 Description](#-description)
   - [⚙️ How to Use](#️-how-to-use)
     - [Example: Creating Columns with Code Blocks](#example-creating-columns-with-code-blocks)
+    - [Example: Specifying Column Widths via YAML](#example-specifying-column-widths-via-yaml)
   - [✨ Features](#-features)
   - [🔧 Global Settings](#-global-settings)
     - [Container Borders](#container-borders)
@@ -52,6 +53,25 @@ console.log("Hello world")
 Column 2
 ````
 `````
+
+### Example: Specifying Column Widths via YAML
+
+You can set custom widths for specific columns using YAML. Columns with a specified ratio will take priority, and any columns without a defined ratio will share the remaining space equally.
+
+```
+id: b52707b0-ce15-6458-825d-32615b4b7h85
+column-1-ratio: 60%
+===
+Column 1
+hello
+===
+Column 2
+```
+
+Explanation:
+- column-1-ratio: 60% → Column 1 takes 60% of the container width.
+- Column 2 (not specified) automatically fills the remaining 40%.
+- You can define ratios for multiple columns (column-2-ratio, column-3-ratio, etc.), up to 4 columns.
 
 ## ✨ Features
 - **Unique Column IDs**: Each column is generated with a unique ID, ensuring you can style or reference columns independently.
