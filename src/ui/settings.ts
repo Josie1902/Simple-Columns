@@ -7,6 +7,7 @@ export interface ColumnsPluginSettings {
   borderWidth: number; // in pixels 
   borderColor: string; // supports RGB, HSL, and HEX color code
   borderTransparency: number; // 0-100 percentage for transparency
+  borderRadius: number; // in pixels for rounded corners
   showResizer: boolean; // toggle to show or hide resizer between columns
   resizerColor: string; // supports RGB. HSL, and HEX color code
   resizerWidth: number; // in pixels
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS: ColumnsPluginSettings = {
   borderWidth: 1,
   borderColor: '#f0f0f0',
   borderTransparency: 100,
+  borderRadius: 0,
   showResizer: true,
   resizerColor: '#f0f0f0',
   resizerWidth: 3,
@@ -38,6 +40,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 		  borderColor,
 		  borderWidth,
 		  borderTransparency,
+		  borderRadius,
 		  showResizer,
 		  resizerTransparency,
 		  resizerColor,
@@ -49,6 +52,7 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 		document.documentElement.style.setProperty('--sc-border-width', `${borderWidth}px`);
   		document.documentElement.style.setProperty('--sc-border-shown', showBorders ? 'solid' : 'none'); 
   		document.documentElement.style.setProperty('--sc-border-color', showBorders ? finalBorderColor : 'transparent');
+		document.documentElement.style.setProperty('--sc-border-radius', `${borderRadius}px`);
 
 		document.documentElement.style.setProperty('--sc-resizer-bg', showResizer ? finalResizerColor : 'transparent');
 		document.documentElement.style.setProperty('--sc-resizer-hover-bg', finalResizerColor);
@@ -116,6 +120,19 @@ export class ColumnWidthsSettingTab extends PluginSettingTab {
 					  this.applyStyles();
     			    });
     			});
+
+			// Border radius for rounded corners
+			new Setting(borderGroup)
+			  .setName('Border radius (px)')
+			  .setDesc('Set border radius in pixels for rounded corners of the column container.')
+			  .addText(text => text
+			    .setPlaceholder('0')
+			    .setValue(this.plugin.settings.borderRadius.toString() ?? '0')
+				.onChange(async (value) => {
+    	  	      this.plugin.settings.borderRadius = parseInt(value) || DEFAULT_SETTINGS.borderRadius;
+    	  	      await this.plugin.saveSettings();
+				  this.applyStyles();
+    	  	    }));
     	}
 
         const resizerGroup = containerEl.createDiv({ cls: 'column-resizer-settings' });

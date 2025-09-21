@@ -29,6 +29,7 @@ If your plugin does not need CSS, delete this file.
   border-style: var(--sc-border-shown);
   border-width: var(--sc-border-width, 0);
   border-color: var(--sc-border-color, transparent);
+  border-radius: var(--sc-border-radius, 0);
 }
 
 /* Text alignment utility classes */
