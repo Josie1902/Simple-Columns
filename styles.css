@@ -15,10 +15,10 @@ If your plugin does not need CSS, delete this file.
   gap: 0;
   width: 100%;
   overflow: hidden;
-  margin: 1em 0;
+  margin: 0.8em 0;
 }
 .markdown-columns-resizable .column {
-  padding: 1em;
+  padding: 0.8em;
   overflow-wrap: break-word;
   overflow: auto;
   min-width: 5px;
