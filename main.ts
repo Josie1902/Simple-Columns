@@ -1,5 +1,5 @@
 import { createMarkdownColumns } from 'src/ui/createColumns';
-import { MarkdownRenderer, Plugin } from 'obsidian';
+import { MarkdownRenderer, MarkdownView, Plugin } from 'obsidian';
 import { CustomiseColumnsModal } from 'src/ui/columnModal';	
 import { DEFAULT_SETTINGS, ColumnsPluginSettings, ColumnWidthsSettingTab } from 'src/ui/settings';
 import { createCustomiseButton } from 'src/ui/button';
@@ -94,7 +94,8 @@ export default class ColumnsPlugin extends Plugin {
 			// [NEW FEATURE] Extract additional sytles from yaml if needed
 			const ratioRegex = /^column-(\d+)-ratio:\s*(.+)$/gm;
 			let match: RegExpExecArray | null;
-			const providedRatios: Record<number, number> = {};
+			const totalCols = parts.length - 1;
+			let providedRatios = Array(totalCols).fill(0);
 
 			while ((match = ratioRegex.exec(metadataSection)) !== null) {
 			  const colIndex = parseInt(match[1], 10); // 1-based
@@ -110,49 +111,46 @@ export default class ColumnsPlugin extends Plugin {
 			const container = document.createElement("div");
 			container.className = `markdown-columns-resizable`;
 			container.id = blockId
-			
+
 			// Load custom styles from localStorage - set via column settings modal
 			const storageKey = `sc-column-widths-${blockId}`;
 
 			// [NEW FEATURE] Loading optional width styles from yaml
-			if (Object.keys(providedRatios).length > 0) {
-				const totalCols = parts.length - 1; // how many columns were split in the content
+			if (providedRatios.some(r => r !== 0)) {
+				const codeBlockEl = document.querySelector<HTMLElement>('.cm-preview-code-block');
+				const containerWidth = codeBlockEl!.offsetWidth;
 
-				this.app.workspace.onLayoutReady(() => {
-				  const containerWidth = container.offsetWidth;
-				  if (containerWidth <= 0) return;
+				if (containerWidth <= 0) return;
+				const resizerWidthPx = this.settings.resizerWidth || DEFAULT_SETTINGS.resizerWidth;
+				const resizerPercent = (resizerWidthPx / containerWidth) * 100;
+				const totalResizers = Math.max(totalCols - 1, 0);
+				const totalResizerPercent = resizerPercent * totalResizers;
+				let remainingPercent = 100 - totalResizerPercent;
+
+				const providedSum = providedRatios.reduce((a, b) => a + b, 0);
+				const zeroCount = providedRatios.filter(r => r === 0).length;
+				const fillValue = (remainingPercent - providedSum) / zeroCount;
+
+				if (providedRatios.some(r => r === 0)) {
+				    providedRatios = providedRatios.map(r => (r === 0 ? fillValue : r));
+				} else {
+				    const halfOfResizer = resizerPercent / 2
+					providedRatios = providedRatios.map(x => x-halfOfResizer)
+				}
+
+				const checkSum = providedRatios.reduce((a, b) => a + b, 0) + totalResizerPercent;
+				if (Math.round(checkSum) !== 100) {
+    			    // Create a visible error message in the preview
+    			    const errorDiv = document.createElement("div");
+    			    errorDiv.style.color = "red";
+    			    errorDiv.style.fontWeight = "bold";
+    			    errorDiv.textContent = `Error: Column ratios must sum to 100%. Currently sum is ${checkSum}%.`;
+    			    el.appendChild(errorDiv);
+    			    return; // Stop further rendering
+    			}
 				
-				  const resizerWidthPx = this.settings.resizerWidth || DEFAULT_SETTINGS.resizerWidth;
-				  const totalResizers = Math.max(totalCols - 1, 0);
-				  const resizerPercent = (resizerWidthPx / containerWidth) * 100;
-				  const totalResizerPercent = resizerPercent * totalResizers;
-				
-				  let remainingPercent = 100 - totalResizerPercent;
-				
-				  const templatisedWidths: (string | undefined)[] = Array(totalCols).fill(undefined);
-				
-				  // Apply provided ratios first
-				  Object.entries(providedRatios).forEach(([idxStr, ratio]) => {
-				    const idx = parseInt(idxStr, 10);
-				    if (idx < totalCols) {
-				      templatisedWidths[idx] = `${ratio}%`;
-				      remainingPercent -= ratio;
-				    }
-				  });
-			  
-				  // Count how many columns need auto distribution
-				  const autoCols = templatisedWidths.filter(w => !w).length;
-				  if (autoCols > 0) {
-				    const each = remainingPercent / autoCols;
-				    for (let i = 0; i < totalCols; i++) {
-				      if (!templatisedWidths[i]) {
-				        templatisedWidths[i] = `${each}%`;
-				      }
-				    }
-				  }
-			  
-				  this.app.saveLocalStorage(storageKey, JSON.stringify(templatisedWidths));
-				});
+				const providedRatiosString = providedRatios.map(r => `${r}%`);
+				this.app.saveLocalStorage(storageKey, JSON.stringify(providedRatiosString));
 			}
 
 			const savedWidths = this.app.loadLocalStorage(storageKey);
