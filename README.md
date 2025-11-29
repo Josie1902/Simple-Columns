@@ -54,7 +54,7 @@ Column 2
 ````
 `````
 
-### (In Development) Example: Specifying Column Widths via YAML
+### Example: Specifying Column Widths via YAML
 
 You can set custom widths for specific columns using YAML. Columns with a specified ratio will take priority, and any columns without a defined ratio will share the remaining space equally.
 
